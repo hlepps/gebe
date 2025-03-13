@@ -1,0 +1,9 @@
+#pragma once
+
+
+#define ROM_TITLE_BEGIN 0x0134
+#define ROM_TITLE_END 0x0143
+
+
+#define MEMORY_ROM_BEGIN 0x0000
+#define MEMORY_ROM_END 0x7FFF

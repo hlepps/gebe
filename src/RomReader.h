@@ -1,5 +1,6 @@
 #pragma once
 
+
 struct ROMMetadata
 {
 	char title[16];
@@ -10,8 +11,11 @@ struct ROMMetadata
 /// </summary>
 class RomReader
 {
+	friend class MemoryManager;
+
 private:
-	char* romData;
+	char* romData = nullptr;
+	bool romReady;
 
 public:
 	/// <summary>
@@ -26,5 +30,15 @@ public:
 	/// <param name="filename">ROM filename</param>
 	void ReadRom(char *filename);
 
+	/// <summary>
+	/// Return ROM Metadata
+	/// </summary>
+	/// <returns>ROMMetadata struct</returns>
 	ROMMetadata GetROMMetadata();
+
+	/// <summary>
+	/// Return state of readiness of the rom
+	/// </summary>
+	/// <returns></returns>
+	bool IsROMReady();
 };

@@ -1,8 +1,10 @@
 #include <iostream>
-#include "Emulator.h"
 #include "RomReader.h"
+#include "MainWindow.h"
+#include "MemoryManager.h"
+#include "Offsets.h"
 
-#include "Window.h"
+#include "Emulator.h"
 
 
 
@@ -11,6 +13,9 @@ void Emulator::Init()
 	RomReader romReader("helpful\\tetris.gb");
 	std:: cout << romReader.GetROMMetadata().title << std::endl;
 
-	Window window("gebe", 500, 500);
+	MemoryManager memoryManager;
+	memoryManager.CopyMemoryFromROM(romReader);
+
+	Window window(romReader.GetROMMetadata().title, 640, 576);
 	window.Open();
 }

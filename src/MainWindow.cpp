@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "MainWindow.h"
 
 #include "raylib.h"
 
@@ -20,6 +20,12 @@ void Window::Close()
 	CloseWindow();
 }
 
+void Window::ChangeTitle(char* title)
+{
+	this->title = title;
+	SetWindowTitle(title);
+}
+
 void Window::Update()
 {
 	// game loop
@@ -31,8 +37,6 @@ void Window::Update()
 		// Setup the back buffer for drawing (clear color and depth buffers)
 		ClearBackground(BLACK);
 
-		// draw some text using the default font
-		DrawText("Hello Raylib", 200, 200, 20, WHITE);
 
 		// end the frame and get ready for the next one  (display frame, poll input, etc...)
 		EndDrawing();

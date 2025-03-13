@@ -22,7 +22,7 @@ public:
 	/// <param name="title">Window title</param>
 	/// <param name="width">Window width</param>
 	/// <param name="height">Window height</param>
-	Window(const char *title, int width, int height);
+	Window(const char* title, int width, int height);
 
 	/// <summary>
 	/// Opens main window
@@ -33,5 +33,11 @@ public:
 	/// Closes main window
 	/// </summary>
 	void Close();
+
+	/// <summary>
+	/// Changes main window title
+	/// </summary>
+	/// <param name="title">New main window title</param>
+	void ChangeTitle(char* title);
 	
 };
