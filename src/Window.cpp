@@ -10,7 +10,6 @@ void Window::Open()
 	// Create the window and OpenGL context
 	InitWindow(width, height, title);
 
-
 	// Start main loop
 	Update();
 }

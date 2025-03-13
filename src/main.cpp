@@ -1,9 +1,9 @@
-#include "Window.h"
+#include "Emulator.h"
 
-int main()
+int main(int argc, char **argv)
 {
-	Window window("gebe", 1280, 720);
+	Emulator emulator;
+	emulator.Init();
 
-	window.Open();
 	return 0;
 }
