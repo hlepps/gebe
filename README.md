@@ -1,2 +1,2 @@
 # gebe
-simple gameboy emulator basen on raylib
+simple gameboy emulator based on raylib
