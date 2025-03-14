@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "MemoryManager.h"
 #include "Offsets.h"
+#include "CommandLineArguments.h"
 
 #include "Emulator.h"
 
@@ -15,7 +16,7 @@ Emulator::Emulator()
 
 void Emulator::PrivateInit()
 {
-	romReader = new RomReader("helpful\\tetris.gb");
+	romReader = new RomReader(CommandLineArguments::GetArguments()[1]);
 	std::cout << romReader->GetROMMetadata().title << std::endl;
 
 	memoryManager = new MemoryManager;
