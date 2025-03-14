@@ -3,6 +3,7 @@
 #include "RomReader.h"
 #include "MemoryManager.h"
 #include "Window.h"
+#include "InstructionProcessor.h"
 
 /// <summary>
 /// Emulator class
@@ -14,9 +15,11 @@ private:
 
 	RomReader* romReader;
 	MemoryManager* memoryManager;
+	InstructionProcessor* instructionProcessor;
 	Window* window;
 
 	Emulator();
+	void PrivateInit();
 public:
 	/// <summary>
 	/// Initializes singleton class Emulator
@@ -27,5 +30,6 @@ public:
 
 	RomReader& GetRomReaderRef();
 	MemoryManager& GetMemoryManagerRef();
+	InstructionProcessor& GetInstructionProcessorRef();
 	Window& GetWindowRef();
 };

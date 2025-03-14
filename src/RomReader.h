@@ -1,5 +1,7 @@
 #pragma once
+#include <string>
 
+using namespace std;
 
 struct ROMMetadata
 {
@@ -14,7 +16,7 @@ class RomReader
 	friend class MemoryManager;
 
 private:
-	char* romData = nullptr;
+	unsigned char* romData = nullptr;
 	bool romReady;
 
 public:
@@ -22,13 +24,13 @@ public:
 	/// Initializes rom reader and loads ROM
 	/// </summary>
 	/// <param name="filename">ROM filename</param>
-	RomReader(char* filename);
+	RomReader(string filename);
 
 	/// <summary>
 	/// Reads ROM
 	/// </summary>
 	/// <param name="filename">ROM filename</param>
-	void ReadRom(char *filename);
+	void ReadRom(string filename);
 
 	/// <summary>
 	/// Return ROM Metadata
