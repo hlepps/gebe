@@ -2,8 +2,7 @@
 
 int main(int argc, char **argv)
 {
-	Emulator emulator;
-	emulator.Init();
+	Emulator::Init();
 
 	return 0;
 }

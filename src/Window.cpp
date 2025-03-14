@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "Window.h"
 
 #include "raylib.h"
 
@@ -28,17 +28,15 @@ void Window::ChangeTitle(char* title)
 
 void Window::Update()
 {
-	// game loop
-	while (!WindowShouldClose())		// run the loop untill the user presses ESCAPE or presses the Close button on the window
+	while (!WindowShouldClose())
 	{
-		// drawing
 		BeginDrawing();
 
-		// Setup the back buffer for drawing (clear color and depth buffers)
 		ClearBackground(BLACK);
 
+		//displaying register values
+		DrawText("A", 640 + 10, 10, 12, WHITE);
 
-		// end the frame and get ready for the next one  (display frame, poll input, etc...)
 		EndDrawing();
 	}
 }
