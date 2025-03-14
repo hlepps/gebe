@@ -1,6 +1,8 @@
-#include "Window.h"
 
 #include "raylib.h"
+
+#include "Window.h"
+#include "RegistersDisplay.h"
 
 void Window::Open()
 {
@@ -35,7 +37,9 @@ void Window::Update()
 		ClearBackground(BLACK);
 
 		//displaying register values
-		DrawText("A", 640 + 10, 10, 12, WHITE);
+		DisplayRegistersOnScreen(640, 0);
+		//Emulator::GetInstance().GetInstructionProcessorRef().GetRegistersRef()->af += 1;
+		//std::cout << (short)Emulator::GetInstance().GetInstructionProcessorRef().GetRegistersRef()->f << std::endl;
 
 		EndDrawing();
 	}

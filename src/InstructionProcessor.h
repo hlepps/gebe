@@ -6,9 +6,10 @@
 class InstructionProcessor
 {
 private:
-	Registers registers;
-	MemoryManager* memoryManager;
+	Registers* registers;
 
 public:
-	InstructionProcessor(MemoryManager* memoryManager);
+	InstructionProcessor();
+
+	Registers* GetRegistersRef();
 };

@@ -1,6 +1,11 @@
 #include "InstructionProcessor.h"
 
-InstructionProcessor::InstructionProcessor(MemoryManager* memoryManager)
+InstructionProcessor::InstructionProcessor()
 {
-	this->memoryManager = memoryManager;
+	registers = new Registers;
+}
+
+Registers* InstructionProcessor::GetRegistersRef()
+{
+	return registers;
 }

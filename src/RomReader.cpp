@@ -14,14 +14,14 @@
 using namespace std;
 
 
-RomReader::RomReader(char *filename)
+RomReader::RomReader(string filename)
 {
 	ReadRom(filename);
 }
 
 
 
-void RomReader::ReadRom(char *filename)
+void RomReader::ReadRom(string filename)
 {
 	romReady = false;
 	if (romData != nullptr)
@@ -38,10 +38,10 @@ void RomReader::ReadRom(char *filename)
 		long long size = input.tellg();
 		
 
-		romData = new char[size];
+		romData = new unsigned char[size];
 
 		input.seekg(0, std::ios::beg);
-		input.read(romData, size);
+		input.read((char*)romData, size);
 		
 		cout << "read: " << size << " bytes" << endl;
 
