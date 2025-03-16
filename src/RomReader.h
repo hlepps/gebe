@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 
-using namespace std;
 
 /// <summary>
 /// Cartridge Metadata
@@ -24,7 +23,7 @@ class RomReader
 private:
 	unsigned char* romData = nullptr;
 	bool romReady;
-	ROMMetadata* meta;
+	ROMMetadata* meta = nullptr;
 
 	/// <summary>
 	/// Initializes metadata
@@ -42,13 +41,13 @@ public:
 	/// Initializes rom reader and loads ROM
 	/// </summary>
 	/// <param name="filename">ROM filename</param>
-	RomReader(string filename);
+	RomReader(std::string filename);
 
 	/// <summary>
 	/// Reads ROM
 	/// </summary>
 	/// <param name="filename">ROM filename</param>
-	void ReadRom(string filename);
+	void ReadRom(std::string filename);
 
 	/// <summary>
 	/// Return ROM Metadata

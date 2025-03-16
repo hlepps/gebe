@@ -1,5 +1,4 @@
 #include <fstream>
-#include <iterator>
 #include <algorithm>
 #include <vector>
 #include <stdexcept>
@@ -9,19 +8,14 @@
 
 #include "RomReader.h"
 
-
-
-using namespace std;
-
-
 void RomReader::InitMetadata()
 {
 	meta = new ROMMetadata;
 
 	std::copy(romData + ROM_TITLE_BEGIN, romData + ROM_TITLE_END, meta->title);
-	std::copy(romData + ROM_TYPE, romData + ROM_TYPE, meta->type);
-	std::copy(romData + ROM_ROM_SIZE, romData + ROM_ROM_SIZE, meta->romSize);
-	std::copy(romData + ROM_RAM_SIZE, romData + ROM_RAM_SIZE, meta->ramSize);
+	meta->type = romData[ROM_TYPE];
+	meta->romSize = romData[ROM_ROM_SIZE];
+	meta->ramSize = romData[ROM_RAM_SIZE];
 }
 
 bool RomReader::IsRomSupported()
@@ -35,12 +29,12 @@ bool RomReader::IsRomSupported()
 	return false;
 }
 
-RomReader::RomReader(string filename)
+RomReader::RomReader(std::string filename)
 {
 	ReadRom(filename);
 }
 
-void RomReader::ReadRom(string filename)
+void RomReader::ReadRom(std::string filename)
 {
 	romReady = false;
 	if (romData != nullptr)
@@ -49,9 +43,9 @@ void RomReader::ReadRom(string filename)
 		romData = nullptr;
 	}
 
-	cout << "working directory: " << std::filesystem::current_path() << endl;
+	std::cout << "working directory: " << std::filesystem::current_path() << std::endl;
 	try {
-		std::basic_ifstream<char> input(filename, std::ios::binary | ios::ate);
+		std::basic_ifstream<char> input(filename, std::ios::binary | std::ios::ate);
 		if (!input.is_open()) return;
 
 		long long size = input.tellg();
@@ -60,7 +54,7 @@ void RomReader::ReadRom(string filename)
 		input.seekg(0, std::ios::beg);
 		input.read((char*)romData, size);
 		
-		cout << "read: " << size << " bytes" << endl;
+		std::cout << "read: " << size << " bytes" << std::endl;
 
 		input.close();
 
@@ -69,8 +63,8 @@ void RomReader::ReadRom(string filename)
 		if (IsRomSupported()) romReady = true;
 
 	}
-	catch (const exception& e) {
-		cout << "Exception " << e.what() << endl;
+	catch (const std::exception& e) {
+		std::cout << "Exception " << e.what() << std::endl;
 	}
 }
 
