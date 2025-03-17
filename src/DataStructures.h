@@ -2,6 +2,10 @@
 
 struct Registers
 {
+	Registers()
+	{
+		af = bc = de = hl = sp = pc = 0;
+	}
 	struct
 	{
 		union
