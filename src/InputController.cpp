@@ -6,7 +6,7 @@
 
 void InputController::HandleInput()
 {
-	char input = ~Emulator::GetInstance().GetMemoryManagerRef()[0xFF00];
+	char input = ~Emulator::GetInstance().GetMemoryManagerRef().memory[0xFF00];
 
 	input = input >> 4;
 	input = input << 4;
@@ -27,10 +27,10 @@ void InputController::HandleInput()
 		if (IsKeyDown(KEY_DOWN)) input = input | 0b00001000;
 	}
 
-	Emulator::GetInstance().GetMemoryManagerRef()[0xFF00] = ~input;
+	Emulator::GetInstance().GetMemoryManagerRef().memory[0xFF00] = ~input;
 }
 
 void InputController::Initialize()
 {
-	Emulator::GetInstance().GetMemoryManagerRef()[0xFF00] = 0;
+	Emulator::GetInstance().GetMemoryManagerRef().memory[0xFF00] = 0x0;
 }

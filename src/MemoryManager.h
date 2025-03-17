@@ -12,8 +12,7 @@ public:
 	/// </summary>
 	unsigned char* memory = nullptr;
 
-	unsigned char operator [] (unsigned char i) const { return memory[i]; }
-	unsigned char& operator [] (unsigned char i) { return memory[i]; }
+
 
 	/// <summary>
 	/// Initializes Memory
