@@ -1,8 +1,9 @@
+#include "Window.h"
 
 #include "raylib.h"
-
-#include "Window.h"
+#include "Emulator.h"
 #include "RegistersDisplay.h"
+#include "InputController.h"
 
 void Window::Open()
 {
@@ -32,6 +33,9 @@ void Window::Update()
 {
 	while (!WindowShouldClose())
 	{
+		Emulator::GetInstance().GetInputControllerRef().HandleInput();
+		Emulator::GetInstance().GetInstructionProcessorRef().ProcessNextInstruction();
+
 		BeginDrawing();
 
 		ClearBackground(BLACK);

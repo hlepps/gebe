@@ -12,6 +12,8 @@ public:
 	/// </summary>
 	unsigned char* memory = nullptr;
 
+
+
 	/// <summary>
 	/// Initializes Memory
 	/// </summary>
