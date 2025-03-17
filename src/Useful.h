@@ -1,21 +1,11 @@
 #pragma once
 
-#include <iostream>
-#include <sstream>
-#include <iomanip>
-#include <format>
+#include <string>
 
-std::string ToHex(unsigned char c)
-{
-	return std::format("{:X}", (short)c);
-}
+std::string ToHex(unsigned char c);
 
-std::string ToHex(unsigned short c)
-{
-	return std::format("{:X}", static_cast<int>(c));
-}
+std::string ToHex(unsigned short c);
 
-std::string ToBinary(unsigned char c)
-{
-	return std::format("{:8b}", c);
-}
+std::string ToBinary(unsigned char c);
+
+short combineChars(char high, char low);

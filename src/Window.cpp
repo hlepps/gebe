@@ -34,6 +34,7 @@ void Window::Update()
 	while (!WindowShouldClose())
 	{
 		Emulator::GetInstance().GetInputControllerRef().HandleInput();
+		Emulator::GetInstance().GetInstructionProcessorRef().ProcessNextInstruction();
 
 		BeginDrawing();
 

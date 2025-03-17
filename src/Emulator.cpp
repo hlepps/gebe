@@ -1,6 +1,7 @@
 #include "Emulator.h"
 
 #include <iostream>
+#include <format>
 #include "RomReader.h"
 #include "Window.h"
 #include "MemoryManager.h"
@@ -23,10 +24,12 @@ void Emulator::PrivateInit()
 	memoryManager = new MemoryManager;
 	memoryManager->CopyMemoryFromROM();
 
+
 	inputController = new InputController();
 	inputController->Initialize();
 
 	instructionProcessor = new InstructionProcessor();
+
 
 	window = new Window(romReader->GetROMMetadata().title, 640 + 200, 576);
 	window->Open();
