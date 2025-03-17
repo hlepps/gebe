@@ -3,6 +3,9 @@
 
 #define ROM_TITLE_BEGIN 0x0134
 #define ROM_TITLE_END 0x0143
+#define ROM_TYPE 0x147
+#define ROM_ROM_SIZE 0x148
+#define ROM_RAM_SIZE 0x149
 
 
 #define MEMORY_ROM_BEGIN 0x0000

@@ -1,11 +1,16 @@
 #pragma once
 #include <string>
 
-using namespace std;
 
+/// <summary>
+/// Cartridge Metadata
+/// </summary>
 struct ROMMetadata
 {
 	char title[16];
+	char type;
+	char romSize;
+	char ramSize;
 };
 
 /// <summary>
@@ -18,25 +23,37 @@ class RomReader
 private:
 	unsigned char* romData = nullptr;
 	bool romReady;
+	ROMMetadata* meta = nullptr;
+
+	/// <summary>
+	/// Initializes metadata
+	/// </summary>
+	void InitMetadata();
+
+	/// <summary>
+	/// Checks if this rom is supported by the emulator
+	/// </summary>
+	/// <returns></returns>
+	bool IsRomSupported();
 
 public:
 	/// <summary>
 	/// Initializes rom reader and loads ROM
 	/// </summary>
 	/// <param name="filename">ROM filename</param>
-	RomReader(string filename);
+	RomReader(std::string filename);
 
 	/// <summary>
 	/// Reads ROM
 	/// </summary>
 	/// <param name="filename">ROM filename</param>
-	void ReadRom(string filename);
+	void ReadRom(std::string filename);
 
 	/// <summary>
 	/// Return ROM Metadata
 	/// </summary>
 	/// <returns>ROMMetadata struct</returns>
-	ROMMetadata GetROMMetadata();
+	ROMMetadata& GetROMMetadata();
 
 	/// <summary>
 	/// Return state of readiness of the rom

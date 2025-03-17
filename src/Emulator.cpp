@@ -17,7 +17,7 @@ Emulator::Emulator()
 void Emulator::PrivateInit()
 {
 	romReader = new RomReader(CommandLineArguments::GetArguments()[1]);
-	std::cout << romReader->GetROMMetadata().title << std::endl;
+	std::cout << "Title: " << romReader->GetROMMetadata().title << std::endl;
 
 	memoryManager = new MemoryManager;
 	memoryManager->CopyMemoryFromROM();

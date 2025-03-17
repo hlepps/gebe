@@ -1,5 +1,4 @@
 #include <fstream>
-#include <iterator>
 #include <algorithm>
 #include <vector>
 #include <stdexcept>
@@ -9,19 +8,33 @@
 
 #include "RomReader.h"
 
+void RomReader::InitMetadata()
+{
+	meta = new ROMMetadata;
 
+	std::copy(romData + ROM_TITLE_BEGIN, romData + ROM_TITLE_END, meta->title);
+	meta->type = romData[ROM_TYPE];
+	meta->romSize = romData[ROM_ROM_SIZE];
+	meta->ramSize = romData[ROM_RAM_SIZE];
+}
 
-using namespace std;
+bool RomReader::IsRomSupported()
+{
+	switch (meta->type)
+	{
+	case 0x00:			// ROM ONLY
+		return true;
 
+	}
+	return false;
+}
 
-RomReader::RomReader(string filename)
+RomReader::RomReader(std::string filename)
 {
 	ReadRom(filename);
 }
 
-
-
-void RomReader::ReadRom(string filename)
+void RomReader::ReadRom(std::string filename)
 {
 	romReady = false;
 	if (romData != nullptr)
@@ -30,36 +43,34 @@ void RomReader::ReadRom(string filename)
 		romData = nullptr;
 	}
 
-	cout << "working directory: " << std::filesystem::current_path() << endl;
+	std::cout << "working directory: " << std::filesystem::current_path() << std::endl;
 	try {
-		std::basic_ifstream<char> input(filename, std::ios::binary | ios::ate);
+		std::basic_ifstream<char> input(filename, std::ios::binary | std::ios::ate);
 		if (!input.is_open()) return;
 
 		long long size = input.tellg();
-		
-
 		romData = new unsigned char[size];
 
 		input.seekg(0, std::ios::beg);
 		input.read((char*)romData, size);
 		
-		cout << "read: " << size << " bytes" << endl;
-
-		romReady = true;
+		std::cout << "read: " << size << " bytes" << std::endl;
 
 		input.close();
+
+		InitMetadata();
+
+		if (IsRomSupported()) romReady = true;
+
 	}
-	catch (const exception& e) {
-		cout << "Exception " << e.what() << endl;
+	catch (const std::exception& e) {
+		std::cout << "Exception " << e.what() << std::endl;
 	}
 }
 
-ROMMetadata RomReader::GetROMMetadata()
+ROMMetadata& RomReader::GetROMMetadata()
 {
-	ROMMetadata meta;
-	std::copy(romData+ROM_TITLE_BEGIN, romData+ROM_TITLE_END, meta.title);
-
-	return meta;
+	return *meta;
 }
 
 bool RomReader::IsROMReady()
