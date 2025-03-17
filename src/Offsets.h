@@ -7,6 +7,7 @@
 #define ROM_ROM_SIZE 0x148
 #define ROM_RAM_SIZE 0x149
 
-
 #define MEMORY_ROM_BEGIN 0x0000
 #define MEMORY_ROM_END 0x7FFF
+
+#define JOYPAD_INPUT 0xFF00

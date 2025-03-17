@@ -1,11 +1,12 @@
+#include "Emulator.h"
+
 #include <iostream>
 #include "RomReader.h"
 #include "Window.h"
 #include "MemoryManager.h"
 #include "Offsets.h"
 #include "CommandLineArguments.h"
-
-#include "Emulator.h"
+#include "InputController.h"
 
 Emulator* Emulator::instance = nullptr;
 
@@ -21,6 +22,9 @@ void Emulator::PrivateInit()
 
 	memoryManager = new MemoryManager;
 	memoryManager->CopyMemoryFromROM();
+
+	inputController = new InputController();
+	inputController->Initialize();
 
 	instructionProcessor = new InstructionProcessor();
 
@@ -53,6 +57,12 @@ InstructionProcessor& Emulator::GetInstructionProcessorRef()
 {
 	return *instructionProcessor;
 }
+
+InputController& Emulator::GetInputControllerRef()
+{
+	return *inputController;
+}
+
 Window& Emulator::GetWindowRef()
 {
 	return *window;

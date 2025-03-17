@@ -43,4 +43,7 @@ void DisplayRegistersOnScreen(int offsetX, int offsetY)
 
 	DrawText("PC", offsetX + 110, offsetY + 260, fontSize, color);
 	DrawText(ToHex(Emulator::GetInstance().GetInstructionProcessorRef().GetRegistersRef()->pc).c_str(), offsetX + 110, offsetY + 260 + horDiff, fontSize, color);
+
+	DrawText("0xFF00 (input)", offsetX + 10, offsetY + 310, fontSize, color);
+	DrawText(ToBinary(Emulator::GetInstance().GetMemoryManagerRef()[0xFF00]).c_str(), offsetX + 10, offsetY + 310 + horDiff, fontSize, color);
 }

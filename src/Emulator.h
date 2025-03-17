@@ -4,6 +4,7 @@
 #include "MemoryManager.h"
 #include "Window.h"
 #include "InstructionProcessor.h"
+#include "InputController.h"
 
 /// <summary>
 /// Emulator class
@@ -15,6 +16,7 @@ private:
 
 	RomReader* romReader;
 	MemoryManager* memoryManager;
+	InputController* inputController = nullptr;
 	InstructionProcessor* instructionProcessor;
 	Window* window;
 
@@ -30,6 +32,7 @@ public:
 
 	RomReader& GetRomReaderRef();
 	MemoryManager& GetMemoryManagerRef();
+	InputController& GetInputControllerRef();
 	InstructionProcessor& GetInstructionProcessorRef();
 	Window& GetWindowRef();
 };

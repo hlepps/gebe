@@ -14,3 +14,8 @@ std::string ToHex(unsigned short c)
 {
 	return std::format("{:X}", static_cast<int>(c));
 }
+
+std::string ToBinary(unsigned char c)
+{
+	return std::format("{:8b}", c);
+}
