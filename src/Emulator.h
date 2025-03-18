@@ -5,6 +5,7 @@
 #include "Window.h"
 #include "InstructionProcessor.h"
 #include "InputController.h"
+#include "Timer.h"
 
 /// <summary>
 /// Emulator class
@@ -18,6 +19,7 @@ private:
 	MemoryManager* memoryManager;
 	InputController* inputController = nullptr;
 	InstructionProcessor* instructionProcessor;
+	Timer* timer;
 	Window* window;
 
 	Emulator();
@@ -34,5 +36,6 @@ public:
 	MemoryManager& GetMemoryManagerRef();
 	InputController& GetInputControllerRef();
 	InstructionProcessor& GetInstructionProcessorRef();
+	Timer& GetTimerRef();
 	Window& GetWindowRef();
 };

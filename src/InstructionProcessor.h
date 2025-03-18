@@ -1,12 +1,21 @@
 #pragma once
 
+#include <chrono>
 #include "DataStructures.h"
 #include "MemoryManager.h"
+
 
 class InstructionProcessor
 {
 private:
 	Registers* registers;
+	bool interruptMasterEnable = 0;
+	bool halt = 0;
+	bool zeroFlag = 0; // z
+	bool subtractionFlag = 0; // n
+	bool halfCarryFlag = 0; // h
+	bool carryFlag = 0; // c
+
 
 public:
 	InstructionProcessor();
@@ -17,7 +26,10 @@ public:
 	/// <summary>
 	/// Reads and processses next instruction
 	/// </summary>
-	void ProcessNextInstruction();
+	/// <reurns>number of cpu cycles</returns>
+	int ProcessNextInstruction();
+
+	void HandleInterrupts();
 
 	/// <summary>
 	/// Returns data at position indicated by PC and increments PC

@@ -7,6 +7,7 @@
 #include "Emulator.h"
 #include "OPCodeTable.h"
 #include "Useful.h"
+#include "Offsets.h"
 
 InstructionProcessor::InstructionProcessor()
 {
@@ -24,7 +25,7 @@ Registers* InstructionProcessor::GetRegistersRef()
 	return registers;
 }
 
-void InstructionProcessor::ProcessNextInstruction()
+int InstructionProcessor::ProcessNextInstruction()
 {
 	try {
 
@@ -37,6 +38,7 @@ void InstructionProcessor::ProcessNextInstruction()
 			char b = GetData();
 			short comb = combineChars(b, a);
 			registers->pc = comb;
+			return 12;
 		} break;
 		case (1):
 		{
@@ -52,6 +54,12 @@ void InstructionProcessor::ProcessNextInstruction()
 		std::cerr << e.what() << std::endl;
 		throw e;
 	}
+}
+
+void InstructionProcessor::HandleInterrupts()
+{
+
+	Emulator::GetInstance().GetMemoryManagerRef().memory[IO_INTERRUPTS] = 0;
 }
 
 unsigned char InstructionProcessor::GetData()
