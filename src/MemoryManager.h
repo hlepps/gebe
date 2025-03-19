@@ -2,6 +2,26 @@
 
 #include "RomReader.h"
 
+class MemoryMap
+{
+private:
+	unsigned char* memory = nullptr;
+
+	/// <summary>
+	/// Used for additional checks before memory access
+	/// </summary>
+	/// <param name="i"></param>
+	/// <returns></returns>
+	unsigned char& getMem(int i);
+
+public:
+	MemoryMap();
+	//unsigned char operator [] (int i) const { return memory[i]; }  // not used for now
+	unsigned char& operator [] (int i) { return getMem(i); }
+
+	friend class MemoryManager;
+};
+
 class MemoryManager
 {
 private:
@@ -10,7 +30,7 @@ public:
 	/// <summary>
 	/// Raw GameBoy memory
 	/// </summary>
-	unsigned char* memory = nullptr;
+	MemoryMap memory;
 
 
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <chrono>
+
 /// <summary>
 /// Main window class
 /// </summary>
@@ -16,6 +18,11 @@ private:
 	void Update();
 
 public:
+	static const int FREQUENCY = 4194304; // standard clock cycle frequency in hz
+	//static const int CYCLE_PER_FRAME = 70224; // found, dont know if proper
+	static const int CYCLE_PER_FRAME = 69905; // counted 
+	const std::chrono::microseconds FRAME_INTERVAL = std::chrono::microseconds(16600);
+
 	/// <summary>
 	/// Initializes main window
 	/// </summary>

@@ -1,9 +1,14 @@
 #include "Window.h"
 
+#include <chrono>
+#include <iostream>
+#include <thread>
 #include "raylib.h"
 #include "Emulator.h"
 #include "RegistersDisplay.h"
 #include "InputController.h"
+#include "InstructionProcessor.h"
+#include "Useful.h"
 
 void Window::Open()
 {
@@ -31,13 +36,26 @@ void Window::ChangeTitle(char* title)
 
 void Window::Update()
 {
+	Emulator::GetInstance().GetMemoryManagerRef().memory[0xFF00] = 0b11011111;
+
+	auto startTime = std::chrono::steady_clock::now();
+	auto nextFrame = startTime + FRAME_INTERVAL;
+
+
 	while (!WindowShouldClose())
 	{
-		Emulator::GetInstance().GetInputControllerRef().HandleInput();
-		Emulator::GetInstance().GetInstructionProcessorRef().ProcessNextInstruction();
+		int cycleElapsed = 0;
+		Emulator::GetInstance().GetTimerRef().SetCyclesToZero();
+		while (cycleElapsed < CYCLE_PER_FRAME)
+		{
+			Emulator::GetInstance().GetInputControllerRef().HandleInput();
+			int cycles = Emulator::GetInstance().GetInstructionProcessorRef().ProcessNextInstruction();
+			cycleElapsed += cycles;
+			Emulator::GetInstance().GetInstructionProcessorRef().HandleInterrupts();
+			Emulator::GetInstance().GetTimerRef().UpdateCycles(cycles);
+		}
 
 		BeginDrawing();
-
 		ClearBackground(BLACK);
 
 		//displaying register values
@@ -46,6 +64,11 @@ void Window::Update()
 		//std::cout << (short)Emulator::GetInstance().GetInstructionProcessorRef().GetRegistersRef()->f << std::endl;
 
 		EndDrawing();
+
+		cycleElapsed = 0;
+
+		std::this_thread::sleep_until(nextFrame);
+		nextFrame += FRAME_INTERVAL;
 	}
 }
 
