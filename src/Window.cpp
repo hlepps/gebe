@@ -1,12 +1,14 @@
 #include "Window.h"
 
 #include <chrono>
+#include <iostream>
 #include <thread>
 #include "raylib.h"
 #include "Emulator.h"
 #include "RegistersDisplay.h"
 #include "InputController.h"
 #include "InstructionProcessor.h"
+#include "Useful.h"
 
 void Window::Open()
 {
@@ -39,15 +41,18 @@ void Window::Update()
 	auto startTime = std::chrono::steady_clock::now();
 	auto nextFrame = startTime + FRAME_INTERVAL;
 
+
 	while (!WindowShouldClose())
 	{
 		int cycleElapsed = 0;
+		Emulator::GetInstance().GetTimerRef().SetCyclesToZero();
 		while (cycleElapsed < CYCLE_PER_FRAME)
 		{
 			Emulator::GetInstance().GetInputControllerRef().HandleInput();
-			cycleElapsed += Emulator::GetInstance().GetInstructionProcessorRef().ProcessNextInstruction();
+			int cycles = Emulator::GetInstance().GetInstructionProcessorRef().ProcessNextInstruction();
+			cycleElapsed += cycles;
 			Emulator::GetInstance().GetInstructionProcessorRef().HandleInterrupts();
-
+			Emulator::GetInstance().GetTimerRef().UpdateCycles(cycles);
 		}
 
 		BeginDrawing();
