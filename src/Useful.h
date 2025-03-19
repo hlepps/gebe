@@ -9,5 +9,18 @@ std::string ToBinary(unsigned char c);
 
 short combineChars(char high, char low);
 
-bool GetBit(char val, char pos);
-bool GetBit(short val, char pos);
+/// <summary>
+/// Returns bit at pos (from right)
+/// </summary>
+/// <param name="val"></param>
+/// <param name="pos"></param>
+/// <returns></returns>
+bool GetBit(unsigned char val, char pos);
+
+/// <summary>
+/// Returns bit at pos (from right)
+/// </summary>
+/// <param name="val"></param>
+/// <param name="pos"></param>
+/// <returns></returns>
+bool GetBit(unsigned short val, char pos);

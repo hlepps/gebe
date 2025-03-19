@@ -25,13 +25,13 @@ short combineChars(char high, char low) {
 	return (static_cast<short>(high) << 8) | static_cast<unsigned char>(low);
 }
 
-bool GetBit(char val, char pos)
+bool GetBit(unsigned char val, char pos)
 {
 	std::bitset<8> bits(val);
 	return bits[pos];
 }
 
-bool GetBit(short val, char pos)
+bool GetBit(unsigned short val, char pos)
 {
 	std::bitset<16> bits(val);
 	return bits[pos];
