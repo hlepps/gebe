@@ -4,17 +4,22 @@
 #include "DataStructures.h"
 #include "MemoryManager.h"
 
+struct ProcessorFlags {
 
-class InstructionProcessor
-{
-private:
-	Registers* registers;
 	bool interruptMasterEnable = 0;
 	bool halt = 0;
 	bool zeroFlag = 0; // z
 	bool subtractionFlag = 0; // n
 	bool halfCarryFlag = 0; // h
 	bool carryFlag = 0; // c
+};
+
+class InstructionProcessor
+{
+private:
+	Registers* registers;
+
+	ProcessorFlags processorFlags;
 
 
 public:
@@ -29,6 +34,9 @@ public:
 	/// <reurns>number of cpu cycles</returns>
 	int ProcessNextInstruction();
 
+	/// <summary>
+	/// Handles processor interrupts
+	/// </summary>
 	void HandleInterrupts();
 
 	/// <summary>
@@ -36,4 +44,10 @@ public:
 	/// </summary>
 	/// <returns>unsigned char with 1 byte of data</returns>
 	unsigned char GetData();
+	
+	/// <summary>
+	/// Returns processor flags [read only]
+	/// </summary>
+	/// <returns>Read only ProcessorFlags</returns>
+	ProcessorFlags GetProcessorFlags();
 };

@@ -68,3 +68,8 @@ unsigned char InstructionProcessor::GetData()
 	registers->pc++;
 	return data;
 }
+
+ProcessorFlags InstructionProcessor::GetProcessorFlags()
+{
+	return processorFlags;
+}
