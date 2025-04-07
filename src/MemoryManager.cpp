@@ -1,4 +1,5 @@
 #include <iostream>
+#include <bitset>
 #include "Offsets.h"
 #include "Emulator.h"
 
@@ -18,6 +19,19 @@ unsigned char& MemoryMap::getMem(int i)
 MemoryMap::MemoryMap()
 {
 	memory = new unsigned char[0xFFFF+1];
+}
+
+void MemoryMap::SetBit(int addr, char pos, bool bit)
+{
+	std::bitset<8> bits(getMem(addr));
+	bits[pos] = bit;
+	memory[addr] = static_cast<unsigned char>(bits.to_ulong());
+}
+
+bool MemoryMap::GetBit(int addr, char pos)
+{
+	std::bitset<8> bits(getMem(addr));
+	return bits[pos];
 }
 
 MemoryManager::MemoryManager()
