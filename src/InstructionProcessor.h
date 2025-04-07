@@ -23,6 +23,9 @@ private:
 
 	void ExecuteInterrupt(int interruptNumber);
 
+	void alu_add(unsigned char val);
+	void alu_adc(unsigned char val);
+
 public:
 	InstructionProcessor();
 	~InstructionProcessor();
