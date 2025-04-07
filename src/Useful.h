@@ -24,3 +24,19 @@ bool GetBit(unsigned char val, char pos);
 /// <param name="pos"></param>
 /// <returns></returns>
 bool GetBit(unsigned short val, char pos);
+
+/// <summary>
+/// Sets bit at pos (from right)
+/// </summary>
+/// <param name="val"></param>
+/// <param name="pos"></param>
+/// <returns></returns>
+unsigned char SetBit(unsigned char val, char pos, bool bit);
+
+/// <summary>
+/// Sets bit at pos (from right)
+/// </summary>
+/// <param name="val"></param>
+/// <param name="pos"></param>
+/// <returns></returns>
+unsigned short SetBit(unsigned short val, char pos, bool bit);
