@@ -21,6 +21,7 @@ private:
 
 	ProcessorFlags processorFlags;
 
+	void ExecuteInterrupt(int interruptNumber);
 
 public:
 	InstructionProcessor();
