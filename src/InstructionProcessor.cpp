@@ -34,9 +34,9 @@ int InstructionProcessor::ProcessNextInstruction()
 		{
 		case (JP_nn):
 		{
-			char a = GetData();
-			char b = GetData();
-			short comb = combineChars(b, a);
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
 			registers->pc = comb;
 			return 12;
 		} break;
