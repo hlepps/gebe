@@ -18,11 +18,6 @@ int InstructionProcessor::ProcessNextInstruction()
 		registers->pc++;
 		switch (inst)
 		{
-			// no instruction
-		case(NOP):
-		{
-			return 4;
-		}break;
 #pragma region 8 bit loads
 		case(LD_A_n):
 		{
@@ -567,7 +562,7 @@ int InstructionProcessor::ProcessNextInstruction()
 			return 12;
 		}break;
 #pragma endregion
-#pragma region ALU
+#pragma region ALU arithmetic
 		case(ADD_A_A):
 		{
 			alu_add(registers->a);
@@ -606,12 +601,12 @@ int InstructionProcessor::ProcessNextInstruction()
 		case(ADD_A_HL_VAL):
 		{
 			alu_add(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
-			return 4;
+			return 8;
 		}break;
 		case(ADD_A_n):
 		{
 			alu_add(GetData());
-			return 4;
+			return 8;
 		}break;
 		
 		case(ADC_A_A):
@@ -652,15 +647,481 @@ int InstructionProcessor::ProcessNextInstruction()
 		case(ADC_A_HL_VAL):
 		{
 			alu_adc(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
-			return 4;
+			return 8;
 		}break;
 		case(ADC_A_n):
 		{
 			alu_adc(GetData());
+			return 8;
+		}break;
+		
+		case(SUB_A_A):
+		{
+			alu_sub(registers->a);
 			return 4;
+		}break;
+		case(SUB_A_B):
+		{
+			alu_sub(registers->b);
+			return 4;
+		}break;
+		case(SUB_A_C):
+		{
+			alu_sub(registers->c);
+			return 4;
+		}break;
+		case(SUB_A_D):
+		{
+			alu_sub(registers->d);
+			return 4;
+		}break;
+		case(SUB_A_E):
+		{
+			alu_sub(registers->e);
+			return 4;
+		}break;
+		case(SUB_A_H):
+		{
+			alu_sub(registers->h);
+			return 4;
+		}break;
+		case(SUB_A_L):
+		{
+			alu_sub(registers->l);
+			return 4;
+		}break;
+		case(SUB_A_HL_VAL):
+		{
+			alu_sub(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
+			return 8;
+		}break;
+		case(SUB_A_n):
+		{
+			alu_sub(GetData());
+			return 8;
+		}break;
+		
+		case(SBC_A_A):
+		{
+			alu_sbc(registers->a);
+			return 4;
+		}break;
+		case(SBC_A_B):
+		{
+			alu_sbc(registers->b);
+			return 4;
+		}break;
+		case(SBC_A_C):
+		{
+			alu_sbc(registers->c);
+			return 4;
+		}break;
+		case(SBC_A_D):
+		{
+			alu_sbc(registers->d);
+			return 4;
+		}break;
+		case(SBC_A_E):
+		{
+			alu_sbc(registers->e);
+			return 4;
+		}break;
+		case(SBC_A_H):
+		{
+			alu_sbc(registers->h);
+			return 4;
+		}break;
+		case(SBC_A_L):
+		{
+			alu_sbc(registers->l);
+			return 4;
+		}break;
+		case(SBC_A_HL_VAL):
+		{
+			alu_sbc(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
+			return 8;
+		}break;
+		case(SBC_A_n):
+		{
+			alu_sbc(GetData());
+			return 8;
 		}break;
 
 #pragma endregion
+#pragma region ALU logic
+		case(AND_A):
+		{
+			alu_and(registers->a);
+			return 4;
+		}break;
+		case(AND_B):
+		{
+			alu_and(registers->b);
+			return 4;
+		}break;
+		case(AND_C):
+		{
+			alu_and(registers->c);
+			return 4;
+		}break;
+		case(AND_D):
+		{
+			alu_and(registers->d);
+			return 4;
+		}break;
+		case(AND_E):
+		{
+			alu_and(registers->e);
+			return 4;
+		}break;
+		case(AND_H):
+		{
+			alu_and(registers->h);
+			return 4;
+		}break;
+		case(AND_L):
+		{
+			alu_and(registers->l);
+			return 4;
+		}break;
+		case(AND_HL_VAL):
+		{
+			alu_and(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
+			return 8;
+		}break;
+		case(AND_n):
+		{
+			alu_and(GetData());
+			return 8;
+		}break;
+		
+		case(OR_A):
+		{
+			alu_or(registers->a);
+			return 4;
+		}break;
+		case(OR_B):
+		{
+			alu_or(registers->b);
+			return 4;
+		}break;
+		case(OR_C):
+		{
+			alu_or(registers->c);
+			return 4;
+		}break;
+		case(OR_D):
+		{
+			alu_or(registers->d);
+			return 4;
+		}break;
+		case(OR_E):
+		{
+			alu_or(registers->e);
+			return 4;
+		}break;
+		case(OR_H):
+		{
+			alu_or(registers->h);
+			return 4;
+		}break;
+		case(OR_L):
+		{
+			alu_or(registers->l);
+			return 4;
+		}break;
+		case(OR_HL_VAL):
+		{
+			alu_or(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
+			return 8;
+		}break;
+		case(OR_n):
+		{
+			alu_or(GetData());
+			return 8;
+		}break;
+		
+		case(XOR_A):
+		{
+			alu_xor(registers->a);
+			return 4;
+		}break;
+		case(XOR_B):
+		{
+			alu_xor(registers->b);
+			return 4;
+		}break;
+		case(XOR_C):
+		{
+			alu_xor(registers->c);
+			return 4;
+		}break;
+		case(XOR_D):
+		{
+			alu_xor(registers->d);
+			return 4;
+		}break;
+		case(XOR_E):
+		{
+			alu_xor(registers->e);
+			return 4;
+		}break;
+		case(XOR_H):
+		{
+			alu_xor(registers->h);
+			return 4;
+		}break;
+		case(XOR_L):
+		{
+			alu_xor(registers->l);
+			return 4;
+		}break;
+		case(XOR_HL_VAL):
+		{
+			alu_xor(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
+			return 8;
+		}break;
+		case(XOR_n):
+		{
+			alu_xor(GetData());
+			return 8;
+		}break;
+
+#pragma endregion
+#pragma region ALU increments
+
+		case(INC_A):
+		{
+			registers->a = alu_inc(registers->a);
+			return 4;
+		}break;
+		case(INC_B):
+		{
+			registers->b = alu_inc(registers->b);
+			return 4;
+		}break;
+		case(INC_C):
+		{
+			registers->c = alu_inc(registers->c);
+			return 4;
+		}break;
+		case(INC_D):
+		{
+			registers->d = alu_inc(registers->d);
+			return 4;
+		}break;
+		case(INC_E):
+		{
+			registers->e = alu_inc(registers->e);
+			return 4;
+		}break;
+		case(INC_H):
+		{
+			registers->h = alu_inc(registers->h);
+			return 4;
+		}break;
+		case(INC_L):
+		{
+			registers->l = alu_inc(registers->l);
+			return 4;
+		}break;
+		case(INC_HL_VAL):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl] = alu_inc(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
+			return 12;
+		}break;
+		case(DEC_A):
+		{
+			registers->a = alu_dec(registers->a);
+			return 4;
+		}break;
+		case(DEC_B):
+		{
+			registers->b = alu_dec(registers->b);
+			return 4;
+		}break;
+		case(DEC_C):
+		{
+			registers->c = alu_dec(registers->c);
+			return 4;
+		}break;
+		case(DEC_D):
+		{
+			registers->d = alu_dec(registers->d);
+			return 4;
+		}break;
+		case(DEC_E):
+		{
+			registers->e = alu_dec(registers->e);
+			return 4;
+		}break;
+		case(DEC_H):
+		{
+			registers->h = alu_dec(registers->h);
+			return 4;
+		}break;
+		case(DEC_L):
+		{
+			registers->l = alu_dec(registers->l);
+			return 4;
+		}break;
+		case(DEC_HL_VAL):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl] = alu_dec(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
+			return 12;
+		}break;
+#pragma endregion
+#pragma region ALU 16bit
+		case(ADD_HL_BC):
+		{
+			alu_add16(registers->bc);
+			return 8;
+		}break;
+		case(ADD_HL_DE):
+		{
+			alu_add16(registers->de);
+			return 8;
+		}break;
+		case(ADD_HL_HL):
+		{
+			alu_add16(registers->hl);
+			return 8;
+		}break;
+		case(ADD_HL_SP):
+		{
+			alu_add16(registers->sp);
+			return 8;
+		}break;
+		case(ADD_SP_d):
+		{
+			unsigned char val = GetData();
+			unsigned int result = registers->sp + val;
+			processorFlags.zeroFlag = 0;
+			processorFlags.subtractionFlag = 0;
+			processorFlags.halfCarryFlag = (((registers->a & 0xfff) + (val & 0xfff)) & 0x1000);
+			processorFlags.carryFlag = (result > 0xfff);
+			registers->sp = (result & 0xffff);
+			return 16;
+		}break;
+		case (INC_BC):
+		{
+			registers->bc = alu_inc16(registers->bc);
+			return 8;
+		}break;
+		case (INC_DE):
+		{
+			registers->de = alu_inc16(registers->de);
+			return 8;
+		}break;
+		case (INC_HL):
+		{
+			registers->hl = alu_inc16(registers->hl);
+			return 8;
+		}break;
+		case (INC_SP):
+		{
+			registers->sp = alu_inc16(registers->sp);
+			return 8;
+		}break;
+		case (DEC_BC):
+		{
+			registers->bc = alu_dec16(registers->bc);
+			return 8;
+		}break;
+		case (DEC_DE):
+		{
+			registers->de = alu_dec16(registers->de);
+			return 8;
+		}break;
+		case (DEC_HL):
+		{
+			registers->hl = alu_dec16(registers->hl);
+			return 8;
+		}break;
+		case (DEC_SP):
+		{
+			registers->sp = alu_dec16(registers->sp);
+			return 8;
+		}break;
+#pragma endregion
+#pragma region misc
+		case(DAA):
+		{
+			daa();
+			return 4;
+		}break;
+		case(CPL):
+		{
+			registers->a = ~registers->a;
+			processorFlags.subtractionFlag = 1;
+			processorFlags.halfCarryFlag = 1;
+			return 4;
+		}break;
+		case(CCF):
+		{
+			processorFlags.subtractionFlag = 0;
+			processorFlags.halfCarryFlag = 0;
+			processorFlags.carryFlag = !processorFlags.carryFlag;
+			return 4;
+		}break;
+		case(SCF):
+		{
+			processorFlags.subtractionFlag = 0;
+			processorFlags.halfCarryFlag = 0;
+			processorFlags.carryFlag = 1;
+			return 4;
+		}break;
+		case(NOP):
+		{
+			return 4;
+		}break;
+		case(HALT):
+		{
+			processorFlags.halt = 1;
+			registers->pc--;
+			return 4;
+		}break;
+		case(STOP):
+		{
+			processorFlags.halt = 1;
+			return 4;
+		}break;
+		case(DI):
+		{
+			processorFlags.interruptMasterEnable = 0;
+			return 4;
+		}break;
+		case(EI):
+		{
+			processorFlags.interruptMasterEnable = 1;
+			return 4;
+		}break;
+#pragma endregion
+#pragma region rotates
+		case(RLC_A):
+		{
+			registers->a = rlc(registers->a, true);
+			return 4;
+		}break;
+		case(RL_A):
+		{
+			registers->a = rl(registers->a, true);
+			return 4;
+		}break;
+		case(RRC_A):
+		{
+			registers->a = rrc(registers->a, true);
+			return 4;
+		}break;
+		case(RR_A):
+		{
+			registers->a = rr(registers->a, true);
+			return 4;
+		}break;
+#pragma endregion
+
+
+
 
 		case (JP_nn):
 		{
@@ -680,29 +1141,4 @@ int InstructionProcessor::ProcessNextInstruction()
 		std::cerr << e.what() << std::endl;
 		throw e.what();
 	}
-}
-
-void InstructionProcessor::alu_add(unsigned char val)
-{
-	short result = registers->a + val;
-	// found:
-	//processorFlags.zeroFlag = ((result & 0xff) == 0);
-	processorFlags.zeroFlag = (result == 0);
-	processorFlags.subtractionFlag = 0;
-	processorFlags.halfCarryFlag = (((registers->a & 0xf) + (val & 0xf)) & 0x10);
-	processorFlags.carryFlag = (result > 0xff);
-	registers->a = (result & 0xff);
-}
-
-void InstructionProcessor::alu_adc(unsigned char val)
-{
-	unsigned char carry = processorFlags.carryFlag;
-	short result = registers->a + val + carry;
-	// found:
-	//processorFlags.zeroFlag = ((result & 0xff) == 0);
-	processorFlags.zeroFlag = (result == 0);
-	processorFlags.subtractionFlag = 0;
-	processorFlags.halfCarryFlag = (((registers->a & 0xf) + (val & 0xf) + (carry & 0xf)) & 0x10);
-	processorFlags.carryFlag = (result > 0xff);
-	registers->a = (result & 0xff);
 }

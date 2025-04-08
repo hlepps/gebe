@@ -18,6 +18,10 @@ std::string ToHex(unsigned short c)
 
 std::string ToBinary(unsigned char c)
 {
+	return std::format("{:0>4b}", c);
+}
+std::string ToBinary(unsigned short c)
+{
 	return std::format("{:0>8b}", c);
 }
 
