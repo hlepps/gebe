@@ -14,7 +14,8 @@ int InstructionProcessor::ProcessNextInstruction()
 	try {
 
 		unsigned char inst = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->pc];
-		std::cout << "PC: " << ToHex(registers->pc) << " | Current instruction:" << ToHex(inst) << std::endl;
+		//std::cout << "PC: " << ToHex(registers->pc) << " | Current instruction:" << ToHex(inst) << std::endl;
+		//std::cout << "z: " << processorFlags.zeroFlag << std::endl;
 		registers->pc++;
 		switch (inst)
 		{
@@ -437,7 +438,6 @@ int InstructionProcessor::ProcessNextInstruction()
 			return 12;
 		}break;
 #pragma endregion
-
 #pragma region 16 bit loads
 		case (LD_BC_nn):
 		{
@@ -495,7 +495,6 @@ int InstructionProcessor::ProcessNextInstruction()
 			return 20;
 		}break;
 #pragma endregion
-
 #pragma region push and pop
 		case (PUSH_AF):
 		{
@@ -608,7 +607,7 @@ int InstructionProcessor::ProcessNextInstruction()
 			alu_add(GetData());
 			return 8;
 		}break;
-		
+
 		case(ADC_A_A):
 		{
 			alu_adc(registers->a);
@@ -654,7 +653,7 @@ int InstructionProcessor::ProcessNextInstruction()
 			alu_adc(GetData());
 			return 8;
 		}break;
-		
+
 		case(SUB_A_A):
 		{
 			alu_sub(registers->a);
@@ -700,7 +699,7 @@ int InstructionProcessor::ProcessNextInstruction()
 			alu_sub(GetData());
 			return 8;
 		}break;
-		
+
 		case(SBC_A_A):
 		{
 			alu_sbc(registers->a);
@@ -794,7 +793,7 @@ int InstructionProcessor::ProcessNextInstruction()
 			alu_and(GetData());
 			return 8;
 		}break;
-		
+
 		case(OR_A):
 		{
 			alu_or(registers->a);
@@ -840,7 +839,7 @@ int InstructionProcessor::ProcessNextInstruction()
 			alu_or(GetData());
 			return 8;
 		}break;
-		
+
 		case(XOR_A):
 		{
 			alu_xor(registers->a);
@@ -884,6 +883,52 @@ int InstructionProcessor::ProcessNextInstruction()
 		case(XOR_n):
 		{
 			alu_xor(GetData());
+			return 8;
+		}break;
+		
+		case(CP_A):
+		{
+			alu_cp(registers->a);
+			return 4;
+		}break;
+		case(CP_B):
+		{
+			alu_cp(registers->b);
+			return 4;
+		}break;
+		case(CP_C):
+		{
+			alu_cp(registers->c);
+			return 4;
+		}break;
+		case(CP_D):
+		{
+			alu_cp(registers->d);
+			return 4;
+		}break;
+		case(CP_E):
+		{
+			alu_cp(registers->e);
+			return 4;
+		}break;
+		case(CP_H):
+		{
+			alu_cp(registers->h);
+			return 4;
+		}break;
+		case(CP_L):
+		{
+			alu_cp(registers->l);
+			return 4;
+		}break;
+		case(CP_HL_VAL):
+		{
+			alu_cp(Emulator::GetInstance().GetMemoryManagerRef().memory[registers->hl]);
+			return 8;
+		}break;
+		case(CP_n):
+		{
+			alu_cp(GetData());
 			return 8;
 		}break;
 
@@ -1119,10 +1164,7 @@ int InstructionProcessor::ProcessNextInstruction()
 			return 4;
 		}break;
 #pragma endregion
-
-
-
-
+#pragma region jumps calls and retunrs
 		case (JP_nn):
 		{
 			unsigned char a = GetData();
@@ -1130,7 +1172,266 @@ int InstructionProcessor::ProcessNextInstruction()
 			unsigned short comb = combineChars(b, a);
 			registers->pc = comb;
 			return 12;
-		} break;
+		}break;
+		case (JP_NZ_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			if (processorFlags.zeroFlag == 0)
+				registers->pc = comb;
+			return 12;
+		}break;
+		case (JP_Z_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			if (processorFlags.zeroFlag == 1)
+				registers->pc = comb;
+			return 12;
+		}break;
+		case (JP_NC_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			if (processorFlags.carryFlag == 0)
+				registers->pc = comb;
+			return 12;
+		}break;
+		case (JP_C_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			if (processorFlags.carryFlag == 1)
+				registers->pc = comb;
+			return 12;
+		}break;
+		case (JP_HL):
+		{
+			registers->pc = registers->hl;
+			return 4;
+		}break;
+		case (JR_n):
+		{
+			int a = (char)GetData();
+			registers->pc = registers->pc + a;
+			return 8;
+		}break;
+		case (JR_NZ_n):
+		{
+			int a = (char)GetData();
+			if (processorFlags.zeroFlag == 0)
+				registers->pc = registers->pc + a;
+			return 8;
+		}break;
+		case (JR_Z_n):
+		{
+			int a = (char)GetData();
+			if (processorFlags.zeroFlag == 1)
+				registers->pc = registers->pc + a;
+			return 8;
+		}break;
+		case (JR_NC_n):
+		{
+			int a = (char)GetData();
+			if (processorFlags.carryFlag == 0)
+				registers->pc = registers->pc + a;
+			return 8;
+		}break;
+		case (JR_C_n):
+		{
+			int a = (char)GetData();
+			if (processorFlags.carryFlag == 1)
+				registers->pc = registers->pc + a;
+			return 8;
+		}break;
+
+		case (CALL_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = comb;
+			return 12;
+		}break;
+		case (CALL_NZ_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			if (processorFlags.zeroFlag == 0) {
+				Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+				Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+				registers->pc = comb;
+			}
+			return 12;
+		}break;
+		case (CALL_Z_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			if (processorFlags.zeroFlag == 1) {
+				Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+				Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+				registers->pc = comb;
+			}
+			return 12;
+		}break;
+		case (CALL_NC_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			if (processorFlags.carryFlag == 0) {
+				Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+				Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+				registers->pc = comb;
+			}
+			return 12;
+		}break;
+		case (CALL_C_nn):
+		{
+			unsigned char a = GetData();
+			unsigned char b = GetData();
+			unsigned short comb = combineChars(b, a);
+			if (processorFlags.carryFlag == 1) {
+				Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+				Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+				registers->pc = comb;
+			}
+			return 12;
+		}break;
+
+		case (RST_0):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = 0x0000;
+			return 32;
+		}break;
+		case (RST_8):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = 0x0008;
+			return 32;
+		}break;
+		case (RST_10):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = 0x0010;
+			return 32;
+		}break;
+		case (RST_18):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = 0x0018;
+			return 32;
+		}break;
+		case (RST_20):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = 0x0020;
+			return 32;
+		}break;
+		case (RST_28):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = 0x0028;
+			return 32;
+		}break;
+		case (RST_30):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = 0x0030;
+			return 32;
+		}break;
+		case (RST_38):
+		{
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+			Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
+			registers->pc = 0x0038;
+			return 32;
+		}break;
+
+		case (RET):
+		{
+			unsigned char a = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+			unsigned char b = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+			unsigned short comb = combineChars(b, a);
+			registers->pc = comb;
+			return 8;
+		}break;
+		case (RET_NZ):
+		{
+			if (processorFlags.zeroFlag == 0)
+			{
+				unsigned char a = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+				unsigned char b = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+				unsigned short comb = combineChars(b, a);
+				registers->pc = comb;
+			}
+			return 8;
+		}break;
+		case (RET_Z):
+		{
+			if (processorFlags.zeroFlag == 1)
+			{
+				unsigned char a = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+				unsigned char b = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+				unsigned short comb = combineChars(b, a);
+				registers->pc = comb;
+			}
+			return 8;
+		}break;
+		case (RET_NC):
+		{
+			if (processorFlags.carryFlag == 0)
+			{
+				unsigned char a = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+				unsigned char b = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+				unsigned short comb = combineChars(b, a);
+				registers->pc = comb;
+			}
+			return 8;
+		}break;
+		case (RET_C):
+		{
+			if (processorFlags.carryFlag == 1)
+			{
+				unsigned char a = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+				unsigned char b = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+				unsigned short comb = combineChars(b, a);
+				registers->pc = comb;
+			}
+			return 8;
+		}break;
+		case(RETI):
+		{
+			unsigned char a = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+			unsigned char b = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp++];
+			unsigned short comb = combineChars(b, a);
+			registers->pc = comb;
+			processorFlags.interruptMasterEnable = 1;
+			return 8;
+		}break;
+#pragma endregion
+
+		case(PREFIX_CB):
+		{
+			return ProcessCBPrefixInstruction();
+		}break;
 		default:
 		{
 			throw std::invalid_argument(std::format("[ERROR] Unimplemented instruction: '{:0>2X}' at position '{:0>4X}'", inst, registers->pc));
@@ -1139,6 +1440,6 @@ int InstructionProcessor::ProcessNextInstruction()
 	}
 	catch (std::exception e) {
 		std::cerr << e.what() << std::endl;
-		throw e.what();
+		//throw e.what();
 	}
 }

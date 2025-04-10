@@ -32,7 +32,7 @@ void Emulator::PrivateInit()
 
 	// Init values
 	instructionProcessor->GetRegistersRef()->pc = 0x100;
-	instructionProcessor->GetRegistersRef()->af = 0x01;
+	instructionProcessor->GetRegistersRef()->a = 0x01;
 	instructionProcessor->GetRegistersRef()->f = 0xB0;
 	instructionProcessor->GetRegistersRef()->bc = 0x0013;
 	instructionProcessor->GetRegistersRef()->de = 0x00D8;

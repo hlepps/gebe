@@ -60,8 +60,8 @@ void InstructionProcessor::ExecuteInterrupt(int interruptNumber)
 	processorFlags.interruptMasterEnable = false;
 
 	// Push current PC onto stack
-	Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (unsigned char)registers->a;
-	Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (unsigned char)registers->f;
+	Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = registers->pc & 0x00FF;
+	Emulator::GetInstance().GetMemoryManagerRef().memory[registers->sp--] = (registers->pc >> 8) & 0x00FF;
 
 	// Set PC
 	switch (interruptNumber) {
@@ -83,6 +83,7 @@ void InstructionProcessor::ExecuteInterrupt(int interruptNumber)
 	}
 
 }
+
 
 unsigned char InstructionProcessor::GetData()
 {
