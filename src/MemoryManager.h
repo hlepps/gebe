@@ -19,6 +19,22 @@ public:
 	//unsigned char operator [] (int i) const { return memory[i]; }  // not used for now
 	unsigned char& operator [] (int i) { return getMem(i); }
 
+	/// <summary>
+	/// Sets addr[pos] = bit
+	/// </summary>
+	/// <param name="addr"></param>
+	/// <param name="pos"></param>
+	/// <param name="bit"></param>
+	void SetBit(int addr, char pos, bool bit);
+
+	/// <summary>
+	/// Gets addr[pos]
+	/// </summary>
+	/// <param name="addr"></param>
+	/// <param name="pos"></param>
+	/// <returns></returns>
+	bool GetBit(int addr, char pos);
+
 	friend class MemoryManager;
 };
 

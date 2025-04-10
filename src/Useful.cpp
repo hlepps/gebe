@@ -18,6 +18,10 @@ std::string ToHex(unsigned short c)
 
 std::string ToBinary(unsigned char c)
 {
+	return std::format("{:0>4b}", c);
+}
+std::string ToBinary(unsigned short c)
+{
 	return std::format("{:0>8b}", c);
 }
 
@@ -35,4 +39,18 @@ bool GetBit(unsigned short val, char pos)
 {
 	std::bitset<16> bits(val);
 	return bits[pos];
+}
+
+unsigned char SetBit(unsigned char val, char pos, bool bit)
+{
+	std::bitset<8> bits(val);
+	bits[pos] = bit;
+	return static_cast<unsigned char>(bits.to_ulong());
+}
+
+unsigned short SetBit(unsigned short val, char pos, bool bit)
+{
+	std::bitset<16> bits(val);
+	bits[pos] = bit;
+	return static_cast<unsigned short>(bits.to_ulong());
 }
