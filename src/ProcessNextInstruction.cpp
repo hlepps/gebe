@@ -15,6 +15,7 @@ int InstructionProcessor::ProcessNextInstruction()
 
 		unsigned char inst = Emulator::GetInstance().GetMemoryManagerRef().memory[registers->pc];
 		//std::cout << "PC: " << ToHex(registers->pc) << " | Current instruction:" << ToHex(inst) << std::endl;
+		//std::cout << "B: " << ToHex(registers->b) << std::endl;
 		//std::cout << "z: " << processorFlags.zeroFlag << std::endl;
 		registers->pc++;
 		switch (inst)

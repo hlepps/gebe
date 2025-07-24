@@ -58,7 +58,7 @@ void InstructionProcessor::alu_and(unsigned char val)
 	processorFlags.subtractionFlag = 0;
 	processorFlags.halfCarryFlag = 1;
 	processorFlags.carryFlag = 0;
-	registers->a = (result & 0xff);
+	registers->a = result;
 }
 
 void InstructionProcessor::alu_or(unsigned char val)
@@ -68,7 +68,7 @@ void InstructionProcessor::alu_or(unsigned char val)
 	processorFlags.subtractionFlag = 0;
 	processorFlags.halfCarryFlag = 0;
 	processorFlags.carryFlag = 0;
-	registers->a = (result & 0xff);
+	registers->a = result;
 }
 
 void InstructionProcessor::alu_xor(unsigned char val)
@@ -78,7 +78,7 @@ void InstructionProcessor::alu_xor(unsigned char val)
 	processorFlags.subtractionFlag = 0;
 	processorFlags.halfCarryFlag = 0;
 	processorFlags.carryFlag = 0;
-	registers->a = (result & 0xff);
+	registers->a = result;
 }
 
 void InstructionProcessor::alu_cp(unsigned char val)
@@ -96,7 +96,7 @@ unsigned char InstructionProcessor::alu_inc(unsigned char val)
 	processorFlags.zeroFlag = ((result & 0xff) == 0);
 	processorFlags.subtractionFlag = 0;
 	processorFlags.halfCarryFlag = (((registers->a & 0xf) + (val & 0xf)) & 0x10);
-	return (result > 0xff);
+	return (result & 0xff);
 }
 
 unsigned char InstructionProcessor::alu_dec(unsigned char val)
@@ -105,7 +105,7 @@ unsigned char InstructionProcessor::alu_dec(unsigned char val)
 	processorFlags.zeroFlag = ((result & 0xff) == 0);
 	processorFlags.subtractionFlag = 1;
 	processorFlags.halfCarryFlag = (((registers->a & 0xf) - (val & 0xf)) < 0);
-	return (result > 0xff);
+	return (result & 0xff);
 }
 
 void InstructionProcessor::alu_add16(unsigned short val)
@@ -120,13 +120,13 @@ void InstructionProcessor::alu_add16(unsigned short val)
 unsigned short InstructionProcessor::alu_inc16(unsigned short val)
 {
 	unsigned short result = val+1;
-	return (result > 0xffff);
+	return (result & 0xffff);
 }
 
 unsigned short InstructionProcessor::alu_dec16(unsigned short val)
 {
 	unsigned short result = val-1;
-	return (result > 0xffff);
+	return (result & 0xffff);
 }
 
 void InstructionProcessor::daa()
