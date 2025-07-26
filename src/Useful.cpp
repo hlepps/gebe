@@ -26,14 +26,15 @@ std::string ToBinary(unsigned short c)
 	return std::format("{:0>8b}", c);
 }
 
-short combineChars(char high, char low) {
+short combineChars(unsigned char high, unsigned char low) {
 	return (static_cast<short>(high) << 8) | static_cast<unsigned char>(low);
 }
 
-std::pair<char, char> separateChars(short val)
+std::pair<unsigned char, unsigned char> separateChars(unsigned short val)
 {
-	char higher = (val > 0xF) * 0xFF;
-	char lower = val & 0xFF;
+	unsigned char higher = (val >> 8) & 0xFF;
+	unsigned char lower = val & 0xFF;
+	return { higher, lower };
 }
 
 bool GetBit(unsigned char val, char pos)

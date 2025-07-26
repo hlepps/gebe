@@ -1,13 +1,15 @@
 #pragma once
 
 #include <string>
+#include <utility>
 
 std::string ToHex(unsigned char c);
 std::string ToHex(unsigned short c);
 
 std::string ToBinary(unsigned char c);
 
-short combineChars(char high, char low);
+short combineChars(unsigned char high, unsigned char low);
+std::pair<unsigned char, unsigned char> separateChars(unsigned short val);
 
 /// <summary>
 /// Returns bit at pos (from right)
