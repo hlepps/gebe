@@ -18,6 +18,21 @@ void Window::Open()
 	// Create the window and OpenGL context
 	InitWindow(width, height, title);
 
+	pixels = (Color*)malloc(gbScreenWidth * gbScreenHeight * sizeof(Color));
+	for (int i = 0; i < gbScreenWidth * gbScreenHeight; i++)
+	{
+		pixels[i] = WHITE;
+	}
+
+	mainImage.data = pixels;
+	mainImage.width = gbScreenWidth;
+	mainImage.height = gbScreenHeight;
+	mainImage.format = PIXELFORMAT_UNCOMPRESSED_R8G8B8A8;
+	mainImage.mipmaps = 1;
+
+	ImageFormat(&mainImage, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
+	mainTexture = LoadTextureFromImage(mainImage);
+
 	// Start main loop
 	Update();
 }
@@ -55,24 +70,31 @@ void Window::Update()
 			Emulator::GetInstance().GetTimerRef().UpdateCycles(cycles);
 		}
 
+		cycleElapsed = 0;
+
+		std::this_thread::sleep_until(nextFrame);
+		nextFrame += FRAME_INTERVAL;
+
 		BeginDrawing();
 		ClearBackground(BLACK);
+
 
 		//displaying register values
 		DisplayRegistersOnScreen(640, 0);
 		//Emulator::GetInstance().GetInstructionProcessorRef().GetRegistersRef()->af += 1;
 		//std::cout << (short)Emulator::GetInstance().GetInstructionProcessorRef().GetRegistersRef()->f << std::endl;
 
+		DrawTextureEx(mainTexture, { 0,0 }, 0, scale, WHITE);
 		EndDrawing();
 
-		cycleElapsed = 0;
-
-		std::this_thread::sleep_until(nextFrame);
-		nextFrame += FRAME_INTERVAL;
 	}
+
+	UnloadTexture(mainTexture);
+
+	CloseWindow();
 }
 
-Window::Window(const char *title, int width, int height)
+Window::Window(const char* title, int width, int height)
 {
 	this->title = title;
 	this->width = width;

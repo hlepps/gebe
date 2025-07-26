@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include "raylib.h"
 
 /// <summary>
 /// Main window class
@@ -12,12 +13,20 @@ private:
 	int width;
 	int height;
 
+	Color* pixels; 
+	Image mainImage;
+	Texture2D mainTexture;
+
 	/// <summary>
 	/// Main loop
 	/// </summary>
 	void Update();
 
 public:
+	static const int gbScreenWidth = 160;
+	static const int gbScreenHeight = 144;
+	static const int scale = 4;
+
 	static const int FREQUENCY = 4194304; // standard clock cycle frequency in hz
 	//static const int CYCLE_PER_FRAME = 70224; // found, dont know if proper
 	static const int CYCLE_PER_FRAME = 69905; // counted 

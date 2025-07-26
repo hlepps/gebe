@@ -72,7 +72,7 @@ void Emulator::PrivateInit()
 
 	timer = new Timer();
 
-	window = new Window(romReader->GetROMMetadata().title, 640 + 200, 576);
+	window = new Window(romReader->GetROMMetadata().title, Window::gbScreenWidth*Window::scale + 200, Window::gbScreenHeight * Window::scale);
 	window->Open();
 }
 

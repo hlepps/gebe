@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <format>
 #include <bitset>
+#include <utility>
 
 std::string ToHex(unsigned char c)
 {
@@ -27,6 +28,12 @@ std::string ToBinary(unsigned short c)
 
 short combineChars(char high, char low) {
 	return (static_cast<short>(high) << 8) | static_cast<unsigned char>(low);
+}
+
+std::pair<char, char> separateChars(short val)
+{
+	char higher = (val > 0xF) * 0xFF;
+	char lower = val & 0xFF;
 }
 
 bool GetBit(unsigned char val, char pos)
